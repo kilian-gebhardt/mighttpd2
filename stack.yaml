@@ -1,0 +1,16 @@
+resolver: lts-11.2
+packages:
+- location: .
+- location: hs-tls/core
+- location: wai/warp
+- location: wai/warp-tls
+- location: hs-tls/session
+flags:
+  mighttpd2:
+    tls: true
+extra-deps:
+- wai-app-file-cgi-3.1.6
+- wai-http2-extra-0.1.0
+- attoparsec-conduit-1.1.0
+- sockaddr-0.0.0
+- static-hash-0.0.1
