@@ -178,7 +178,7 @@ mighty opt rpt svc lgr pushlgr mgr rdr _tlsSetting
 #endif
   where
     app = P.pushOnReferer P.defaultSettings
-                          (fileCgiApp cspec filespec cgispec revproxyspec rdr)
+                          (fileCgiApp cspec filespec cgispec revproxyspec rdr servedot)
     debug = opt_debug_mode opt
     -- We don't use setInstallShutdownHandler because we may use
     -- two sockets for HTTP and HTTPS.
@@ -207,6 +207,7 @@ mighty opt rpt svc lgr pushlgr mgr rdr _tlsSetting
     revproxyspec = RevProxyAppSpec {
         revProxyManager = mgr
       }
+    servedot = opt_serve_dot_files opt
 
 ----------------------------------------------------------------
 

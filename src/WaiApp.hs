@@ -14,8 +14,8 @@ import Program.Mighty
 data Perhaps a = Found a | Redirect | Fail
 
 fileCgiApp :: ClassicAppSpec -> FileAppSpec -> CgiAppSpec -> RevProxyAppSpec
-           -> RouteDBRef -> Application
-fileCgiApp cspec filespec cgispec revproxyspec rdr req respond
+           -> RouteDBRef -> Bool -> Application
+fileCgiApp cspec filespec cgispec revproxyspec rdr servedot req respond
   | dotFile = do
         let st = badRequest400
         fastResponse respond st defaultHeader "Bad Request\r\n"
@@ -41,7 +41,7 @@ fileCgiApp cspec filespec cgispec revproxyspec rdr req respond
     (host, _) = hostPort req
     rawpath = rawPathInfo req
     path = urlDecode False rawpath
-    dotFile = BS.isPrefixOf "." rawpath || BS.isInfixOf "/." rawpath
+    dotFile = not servedot && (BS.isPrefixOf "." rawpath || BS.isInfixOf "/." rawpath)
     mmp um = case getBlock host um of
         Nothing  -> Fail
         Just blk -> getRoute path blk
